@@ -6,9 +6,11 @@
 package redneuronalxor;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -31,7 +33,7 @@ public class RedNeuronalXOR {
         this.coeficienteAprendizaje = 0.7;
         this.pesos = new double[]{1.0, -1.0, 2.0};
 
-        this.leerEntradasSalidas(); //llenar arreglos de entradas y salidas
+        this.leerEntradasSalidas(); //Llenar arreglos de entradas y salidas
         this.salida = 0;
         int centinela = 0;
         while (centinela < entradas.length) {
@@ -64,14 +66,14 @@ public class RedNeuronalXOR {
 
                 System.out.println("Pesos nuevos calculados..\n \n\n");
                 this.log = this.log + "Pesos nuevos calculados.. \n \n\n";
-                centinela =  centinela - 1;
+                centinela = centinela - 1;
             }
             centinela++;
         }
-
+        System.out.println("Número de Interacciones: " + centinela);
         System.out.println("FIN....");
-        this.log = this.log + "COMPUERTA (XOR) Entrenada correctamente..";
-        //System.out.println("Calcular con entradas 1 y 1 = " + calcular(1, 1));
+        this.log = this.log + "Número de Interacciones: " + centinela+ "\nCOMPUERTA (XOR) Entrenada correctamente..";
+        
     }
 
     public double calcularPesos(double pesoAnterior, double coeficienteError, double error, double entrada) {
@@ -88,12 +90,12 @@ public class RedNeuronalXOR {
 
     public int calcular(int x1, int x2) {
         int resultado;
-        if(x1 == x2){
+        if (x1 == x2) {
             resultado = 0;
         } else {
             resultado = 1;
-        }      
-        return resultado;   
+        }
+        return resultado;
     }
 
     public String getLog() {
@@ -106,16 +108,17 @@ public class RedNeuronalXOR {
 
     public void leerEntradasSalidas() throws FileNotFoundException, IOException {
         String cadena;
-        FileReader f = new FileReader("C:\\Users\\Sebastian\\OneDrive\\Documentos\\NetBeansProjects\\RedNeuronalXOR\\src\\redneuronalxor\\Entradas_Salidas.txt");
+        String filePath = new File("").getAbsolutePath();
+        FileReader f = new FileReader(filePath + "/src/redneuronalxor/Entradas_Salidas.txt"); //Ruta relativa
         BufferedReader b = new BufferedReader(f);
         int i = 0;
         while ((cadena = b.readLine()) != null) {
-            String[] parts = cadena.split("-"); 
-            System.out.println("Valor int: "+parseInt(parts[0]));
+            String[] parts = cadena.split("-");
+            System.out.println("Valor int: " + parseInt(parts[0]));
             this.entradas[i][0] = parseInt(parts[0]);
             this.entradas[i][1] = parseInt(parts[1]);
             this.entradas[i][2] = parseInt(parts[2]);
-            this.salidas[i]     = parseInt(parts[3]);
+            this.salidas[i] = parseInt(parts[3]);
             i++;
         }
         System.out.println("Entradas");
@@ -123,7 +126,9 @@ public class RedNeuronalXOR {
             System.out.print("|");
             for (int y = 0; y < this.entradas[x].length; y++) {
                 System.out.print(this.entradas[x][y]);
-                if (y != this.entradas[x].length - 1) System.out.print("\t");    
+                if (y != this.entradas[x].length - 1) {
+                    System.out.print("\t");
+                }
             }
             System.out.println("|");
         }
@@ -131,7 +136,7 @@ public class RedNeuronalXOR {
         for (int j = 0; j < this.salidas.length; j++) {
             System.out.println(this.salidas[j] + "\t");
         }
-        
+
         b.close();
     }
 }
